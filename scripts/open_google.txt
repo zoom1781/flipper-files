@@ -1,0 +1,4 @@
+REM Opens Google in the default browser
+DELAY 1000
+STRING https://www.google.com
+ENTER
